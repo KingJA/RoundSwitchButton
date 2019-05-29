@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+
 /**
  * Description:TODO
  * Create Time:2019/5/28 0028 上午 11:06
@@ -48,7 +49,7 @@ public class RoundSwitchButton extends View {
 
     private int bgColor = 0x77ffffff;
     private int selColor = 0xFF42B1F6;
-    private int mTextSize = 16;
+    private int mTextSize = 36;
     private int selTextColor = 0xFFffffff;
     private int unselTextColor = 0xFF000000;
 
@@ -77,7 +78,7 @@ public class RoundSwitchButton extends View {
     }
 
     private int borderWidth = 0;
-    private int radius = 40;
+    private int radius = 45;
     private int mSelectedTab = 0;
 
     @Override
@@ -175,16 +176,24 @@ public class RoundSwitchButton extends View {
                     if (mSelectedTab == i) {
                         return true;
                     }
-                    mSelectedTab = i;
-                    startAnimator();
-                    if (onSwitchListener != null) {
-                        onSwitchListener.onSwitch(i, mTabTexts[i]);
-                    }
+                    setSelectedTab(i);
                 }
             }
-            invalidate();
+
         }
         return true;
+    }
+
+    public void setSelectedTab(int mSelectedTab) {
+        if (currentTab == mSelectedTab) {
+            return;
+        }
+        this.mSelectedTab = mSelectedTab;
+        startAnimator();
+        if (onSwitchListener != null) {
+            onSwitchListener.onSwitch(mSelectedTab, mTabTexts[mSelectedTab]);
+        }
+        return;
     }
 
     private boolean isAnimating;
@@ -196,7 +205,7 @@ public class RoundSwitchButton extends View {
         }
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, distance);
-        anim.setDuration(500);
+        anim.setDuration(300);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -260,4 +269,6 @@ public class RoundSwitchButton extends View {
     private int getDefaultHeight() {
         return (int) (mFontMetrics.bottom - mFontMetrics.top) + getPaddingTop() + getPaddingBottom();
     }
+
+
 }
