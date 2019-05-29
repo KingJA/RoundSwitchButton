@@ -93,9 +93,7 @@ public class RoundSwitchButton extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //绘制背景
         canvas.drawRoundRect(bgRectf, radius, radius, bgPaint);
-        //绘制选中tab
         if (mSelectedTab != currentTab) {
             canvas.drawRoundRect(new RectF(perWidth * currentTab + currentAnimationValue, 0, perWidth * currentTab +
                     currentAnimationValue + perWidth, mHeight), radius, radius, selPaint);
@@ -134,7 +132,7 @@ public class RoundSwitchButton extends View {
         canvas.restore();
     }
 
-    private String[] mTabTexts = {"视频", "图像", "VR"};
+    private String[] mTabTexts = {"AAA", "BBB", "CCC"};
     private int mTabNum = mTabTexts.length;
 
     public RoundSwitchButton setText(String... tagTexts) {
@@ -178,7 +176,6 @@ public class RoundSwitchButton extends View {
                         return true;
                     }
                     mSelectedTab = i;
-                    //todo 开启动画
                     startAnimator();
                     if (onSwitchListener != null) {
                         onSwitchListener.onSwitch(i, mTabTexts[i]);
@@ -214,7 +211,7 @@ public class RoundSwitchButton extends View {
             public void onAnimationEnd(Animator animation) {
                 isAnimating = false;
                 currentTab = mSelectedTab;
-                Log.d("TAG", "结束" + currentTab);
+                Log.d("TAG", "over" + currentTab);
             }
         });
         anim.start();
