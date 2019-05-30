@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RoundSwitchButton">
+        <attr name="backgroundColor" format="color|reference"/>
+        <attr name="selectedBackgroundColor" format="color|reference"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="selectedTextColor" format="color|reference"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="selectedTab" format="integer"/>
+        <attr name="switchTabs" format="reference"/>
+    </declare-styleable>
+</resources>

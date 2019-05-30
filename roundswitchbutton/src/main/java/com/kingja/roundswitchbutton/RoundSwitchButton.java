@@ -4,11 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -23,6 +26,12 @@ import android.view.View;
  */
 public class RoundSwitchButton extends View {
 
+    private static final float CORNERRADIUS = 50;
+    private static final int BACKGROUNDCOLOR = 0x77ffffff;
+    private static final int SELECTED_BACKGROUNDCOLOR = 0xFF42B1F6;
+    private static final int TEXTCOLOR = 0xFF000000;
+    private static final int SELECTEDTEXTCOLOR = 0xFFffffff;
+    private static final float TEXTSIZE = 36;
     private RectF bgRectf;
     private Paint bgPaint;
     private Paint mSelectedTextPaint;
@@ -33,6 +42,14 @@ public class RoundSwitchButton extends View {
     private Paint selPaint;
     private float currentAnimationValue;
     private Paint.FontMetrics mFontMetrics;
+    private int backgroundColor;
+    private int selectedBackgroundColor;
+    private int textColor;
+    private int selectedTextColor;
+    private float textSize;
+    private float cornerRadius;
+    private int mSwitchTabsResId;
+    private int mSelectedTab;
 
     public RoundSwitchButton(Context context) {
         this(context, null);
@@ -47,39 +64,52 @@ public class RoundSwitchButton extends View {
         initRoundSwitchButton(attrs);
     }
 
-    private int bgColor = 0x77ffffff;
-    private int selColor = 0xFF42B1F6;
-    private int mTextSize = 36;
-    private int selTextColor = 0xFFffffff;
-    private int unselTextColor = 0xFF000000;
-
     private void initRoundSwitchButton(AttributeSet attrs) {
+        initAttrs(attrs);
+        initPaint();
+    }
+
+    private void initPaint() {
         bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         bgPaint.setStyle(Paint.Style.FILL);
         bgPaint.setStrokeWidth(borderWidth);
-        bgPaint.setColor(bgColor);
+        bgPaint.setColor(backgroundColor);
 
         selPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         selPaint.setStyle(Paint.Style.FILL);
-        selPaint.setColor(selColor);
+        selPaint.setColor(selectedBackgroundColor);
 
         // selected text paint
         mSelectedTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mSelectedTextPaint.setTextSize(mTextSize);
-        mSelectedTextPaint.setColor(selTextColor);
+        mSelectedTextPaint.setTextSize(textSize);
+        mSelectedTextPaint.setColor(selectedTextColor);
         // unselected text paint
         mUnselectedTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        mUnselectedTextPaint.setTextSize(mTextSize);
-        mUnselectedTextPaint.setColor(unselTextColor);
-
+        mUnselectedTextPaint.setTextSize(textSize);
+        mUnselectedTextPaint.setColor(textColor);
         mFontMetrics = mSelectedTextPaint.getFontMetrics();
-
         mTextHeightOffset = -(mSelectedTextPaint.ascent() + mSelectedTextPaint.descent()) * 0.5f;
     }
 
+    private void initAttrs(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.RoundSwitchButton);
+        backgroundColor = typedArray.getColor(R.styleable.RoundSwitchButton_backgroundColor, BACKGROUNDCOLOR);
+        selectedBackgroundColor = typedArray.getColor(R.styleable.RoundSwitchButton_selectedBackgroundColor,
+                SELECTED_BACKGROUNDCOLOR);
+        textColor = typedArray.getColor(R.styleable.RoundSwitchButton_textColor, TEXTCOLOR);
+        selectedTextColor = typedArray.getColor(R.styleable.RoundSwitchButton_selectedTextColor, SELECTEDTEXTCOLOR);
+        textSize = typedArray.getDimension(R.styleable.RoundSwitchButton_textSize, TEXTSIZE);
+        cornerRadius = typedArray.getDimension(R.styleable.RoundSwitchButton_cornerRadius, CORNERRADIUS);
+        currentTab = mSelectedTab = typedArray.getInteger(R.styleable.RoundSwitchButton_selectedTab, 0);
+        mSwitchTabsResId = typedArray.getResourceId(R.styleable.RoundSwitchButton_switchTabs, 0);
+        if (mSwitchTabsResId != 0) {
+            mTabTexts = getResources().getStringArray(mSwitchTabsResId);
+            mTabNum = mTabTexts.length;
+        }
+        typedArray.recycle();
+    }
+
     private int borderWidth = 0;
-    private int radius = 45;
-    private int mSelectedTab = 0;
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -94,13 +124,13 @@ public class RoundSwitchButton extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawRoundRect(bgRectf, radius, radius, bgPaint);
+        canvas.drawRoundRect(bgRectf, cornerRadius, cornerRadius, bgPaint);
         if (mSelectedTab != currentTab) {
             canvas.drawRoundRect(new RectF(perWidth * currentTab + currentAnimationValue, 0, perWidth * currentTab +
-                    currentAnimationValue + perWidth, mHeight), radius, radius, selPaint);
+                    currentAnimationValue + perWidth, mHeight), cornerRadius, cornerRadius, selPaint);
         } else {
             canvas.drawRoundRect(new RectF(perWidth * currentTab, 0, perWidth * currentTab + perWidth, mHeight),
-                    radius, radius, selPaint);
+                    cornerRadius, cornerRadius, selPaint);
         }
         //draw tab and line
         drawText(canvas);

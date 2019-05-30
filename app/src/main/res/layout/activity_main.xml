@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".MainActivity">
@@ -25,6 +26,14 @@
             android:paddingRight="12dp"
             android:paddingTop="6dp"
             android:paddingBottom="6dp"
+            app:backgroundColor="#ddffff"
+            app:selectedBackgroundColor="#7700b8b8"
+            app:textSize="16sp"
+            app:selectedTab="1"
+            app:textColor="#3427a4"
+            app:switchTabs="@array/switch_tabs"
+            app:selectedTextColor="#ff58b1"
+            app:cornerRadius="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

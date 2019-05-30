@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RoundSwitchButton</string>
+    <string-array name="switch_tabs">
+        <item>NBA</item>
+        <item>FFA</item>
+        <item>ATP</item>
+    </string-array>
 </resources>
