@@ -34,7 +34,7 @@ publish {
     artifactId = 'roundswitchbutton'
     userOrg = 'kingja'
     groupId = 'com.kingja.roundswitchbutton'
-    publishVersion = '1.1.1'
+    publishVersion = '1.1.2'
     desc = 'A smart switchable round button,support multiple tabs.'
     website = 'https://github.com/KingJA/RoundSwitchButton'
 }
