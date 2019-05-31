@@ -168,13 +168,13 @@ public class RoundSwitchButton extends View {
     private int mTabNum = mTabTexts.length;
 
     public RoundSwitchButton setText(String... tagTexts) {
-        if (tagTexts.length > 1) {
+        if (tagTexts.length > 0) {
             this.mTabTexts = tagTexts;
             mTabNum = tagTexts.length;
             requestLayout();
             return this;
         } else {
-            throw new IllegalArgumentException("the size of tagTexts should greater then 1");
+            throw new IllegalArgumentException("the size of tagTexts should greater then 0");
         }
     }
 
