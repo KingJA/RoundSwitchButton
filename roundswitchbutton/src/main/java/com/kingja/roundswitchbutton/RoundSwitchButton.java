@@ -50,6 +50,7 @@ public class RoundSwitchButton extends View {
     private float cornerRadius;
     private int mSwitchTabsResId;
     private int mSelectedTab;
+    private int borderWidth = 0;
 
     public RoundSwitchButton(Context context) {
         this(context, null);
@@ -109,7 +110,7 @@ public class RoundSwitchButton extends View {
         typedArray.recycle();
     }
 
-    private int borderWidth = 0;
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
